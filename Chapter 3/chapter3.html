@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chapter 3</title>
+<style>
+body { margin:0; font-family:Arial,sans-serif; background:#f2f2f2; }
+
+/* HEADER & FOOTER */
+header, footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background:#007BFF;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 15px;
+  transition: all 0.4s ease;
+}
+header { top: 0; opacity: 1; }
+header.hidden { top: -70px; opacity: 0; }
+
+footer { bottom: -70px; opacity: 0; }
+footer.visible { bottom: 0; opacity: 1; }
+
+button, select {
+  border-radius:4px; 
+  border:1px solid #ccc; 
+  padding:6px 10px; 
+  font-size:0.95rem;
+  background:white;
+  color:#007BFF;
+  cursor:pointer;
+}
+button:hover, select:hover { background:#e8e8e8; }
+
+.chapter-select {
+  background:white;
+  color:#007BFF;
+  border-radius:4px;
+  border:1px solid #ccc;
+  font-size:1rem;
+  padding:5px 8px;
+}
+
+#panel-container { 
+  max-width:800px; 
+  margin:70px auto 0 auto; 
+  padding:0 10px;
+}
+#panel-container img { 
+  display:block; 
+  width:100%; 
+  margin:0; 
+  border:none;
+}
+
+/* Footer buttons container */
+.footer-buttons {
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media (max-width:600px){
+  #panel-container{max-width:100%; padding:0;}
+  #panel-container img{width:100%; margin:0;}
+  header,footer{padding:8px;}
+}
+</style>
+</head>
+<body>
+<header id="mainHeader" role="banner">
+  <div>
+    <a href="../Chapter 2/chapter2.html" aria-label="Previous Chapter"><button>Prev</button></a>
+  </div>
+  <div>
+    <label for="chapterSelectTop" class="visually-hidden">Select Chapter</label>
+    <select class="chapter-select" id="chapterSelectTop" title="Select Chapter">
+      <option value="../chapter1.html">Chapter 1</option>
+<option value="../chapter2.html">Chapter 2</option>
+<option value="../chapter3.html" selected>Chapter 3</option>
+    </select>
+  </div>
+  <div>
+    
+  </div>
+</header>
+
+<div id="panel-container" role="main">
+<img src="Panel 3.jpg" alt="Panel image from Chapter 3">
+<img src="Panel 4.jpg" alt="Panel image from Chapter 3">
+</div>
+
+<footer id="mainFooter" role="contentinfo">
+  <div>
+    <a href="../Chapter 2/chapter2.html" aria-label="Previous Chapter"><button>Prev</button></a>
+  </div>
+  <div>
+    <label for="chapterSelectBottom" class="visually-hidden">Select Chapter</label>
+    <select class="chapter-select" id="chapterSelectBottom" title="Select Chapter">
+      <option value="../chapter1.html">Chapter 1</option>
+<option value="../chapter2.html">Chapter 2</option>
+<option value="../chapter3.html" selected>Chapter 3</option>
+    </select>
+  </div>
+  <div class="footer-buttons">
+    
+    <button id="goTopBtn" title="Go to Top">Top ↑</button>
+  </div>
+</footer>
+
+<script>
+const header = document.getElementById('mainHeader');
+const footer = document.getElementById('mainFooter');
+const topSelect = document.getElementById('chapterSelectTop');
+const bottomSelect = document.getElementById('chapterSelectBottom');
+const goTopBtn = document.getElementById('goTopBtn');
+
+[topSelect, bottomSelect].forEach((sel, i, arr) => {
+  sel.addEventListener('change', e => {
+    const val = e.target.value;
+    window.location.href = val;
+    arr.forEach(other => { if (other !== sel) other.value = val; });
+  });
+});
+
+goTopBtn.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Scroll behavior
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const windowHeight = window.innerHeight;
+  const docHeight = document.documentElement.scrollHeight;
+
+  // Header visible only at top
+  if (scrollTop <= 50) {
+    header.classList.remove('hidden');
+  } else {
+    header.classList.add('hidden');
+  }
+
+  // Footer visible only at bottom
+  if (scrollTop + windowHeight >= docHeight - 50) {
+    footer.classList.add('visible');
+  } else {
+    footer.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>
